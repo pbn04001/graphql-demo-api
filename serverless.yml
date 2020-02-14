@@ -1,0 +1,71 @@
+service: serverless-graphql
+plugins:
+  - serverless-webpack
+  - serverless-offline
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        Fn::GetAtt:
+          - providerPricingTable
+          - Arn
+
+functions:
+  graphql:
+    handler: index.handler
+    environment:
+      ENVIRONMENT: ${env:ENVIRONMENT}
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+  playground:
+    handler: index.handler
+    environment:
+      ENVIRONMENT: ${env:ENVIRONMENT}
+    events:
+      - http:
+          path: playground
+          method: any
+          cors: true
+
+
+resources: # CloudFormation template syntax from here on.
+  Resources:
+    providerPricingTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${env:dynamoTable}
+        TimeToLiveSpecification:
+          AttributeName: TimeToLive
+          Enabled: true
+        AttributeDefinitions:
+          - AttributeName: PriceUUID
+            AttributeType: S
+          - AttributeName: ProviderId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: PriceUUID
+            KeyType: HASH
+          - AttributeName: ProviderId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
