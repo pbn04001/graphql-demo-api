@@ -4,25 +4,22 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "apollo-server-express": "^2.9.7",
-    "aws-sdk": "^2.570.0",
-    "create-react-app": "^3.2.0",
+    "apollo-server-express": "^2.25.2",
+    "aws-sdk": "^2.994.0",
+    "create-react-app": "^3.4.1",
     "express": "^4.17.1",
     "graphql": "^0.13.2",
-    "graphql-playground-middleware-express": "^1.7.12",
-    "serverless-http": "^2.3.0",
-    "serverless-offline": "^5.12.0",
-    "serverless-webpack": "^5.3.1",
-    "subscriptions-transport-ws": "^0.9.16"
+    "graphql-playground-middleware-express": "^1.7.22",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "babel-loader": "^8.0.6",
-    "webpack": "^4.41.2",
+    "@babel/core": "^7.15.5",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.12",
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
-    "start": "serverless offline start",
+    "start": "node --trace-warnings ./index.js",
     "deploy-dev": "serverless deploy -v --stage dev ",
     "deploy-prod": "serverless deploy -v --stage prod ",
     "test": "echo \"Error: no test specified\" && exit 1"

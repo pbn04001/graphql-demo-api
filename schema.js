@@ -1,4 +1,4 @@
-import {skillTypes} from "./data";
+const {skillTypes} = require("./data");
 
 const jobSkills = `
 enum SkillType {
@@ -70,6 +70,7 @@ const providerPricing = `
     id: Int!
     name: String!
     location: String!
+    rating: String
   }
   
   input NewProvider {
@@ -83,7 +84,7 @@ const providerPricing = `
   }
 `
 
-export default `
+module.exports = `
   ${jobSkills}
   ${complex}
   ${providerPricing}
