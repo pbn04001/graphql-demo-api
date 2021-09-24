@@ -1,2 +1,4 @@
 .idea
 graphql-demo-api.iml
+/.webpack/
+/node_modules/

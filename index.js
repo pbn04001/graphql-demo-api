@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
-const graphiql = require('graphql-playground-middleware-express');
+const graphiql = require('graphql-playground-middleware-express').default;
 const {jobs, skills, providers, complex, complexTasks, complexTaskStatus} = require('./data');
 const schema = require('./schema');
 
@@ -108,12 +108,12 @@ const schema = require('./schema');
         path: '/graphql',
     });
 
-    // app.get(
-    //     '/playground',
-    //     graphiql({
-    //         endpoint: '/graphql',
-    //     })
-    // );
+    app.get(
+        '/playground',
+        graphiql({
+            endpoint: '/graphql',
+        })
+    );
 
     app.listen(3000, () => {
         console.log(`🚀🚀🚀 Server ready 🚀🚀🚀`);
